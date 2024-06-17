@@ -13,8 +13,11 @@ def nb_case():
 #Instance chrome
 driver = webdriver.Chrome()
 
-#Ouvre le site web
-driver.get("https://www.tusmo.xyz/s411f0c5")
+#Ouvre le site web, crée la variable local storage locale pour passer le site en français et recharge la page
+partie = "s451e3a1"
+driver.get("https://www.tusmo.xyz/" + partie)
+driver.execute_script("window.localStorage.setItem('locale', 'fr')")
+driver.get("https://www.tusmo.xyz/" + partie)
 
 #Récupere la valeure de la lettre de départ
 lettre = driver.find_element(By.CSS_SELECTOR, ".cell-content")
@@ -38,8 +41,23 @@ for t_mot in liste_long:
     if t_mot[0] == l1.lower():
         lettre_liste.append(t_mot)
 
-pg.write(lettre_liste[1])
+#Inscrit le premier mot de la liste dans le jeu
+pg.write(lettre_liste[5])
 pg.press('enter')
+
+try:
+    red = driver.find_elements(By.CSS_SELECTOR, ".r")
+    for element_r in red:
+        print("rouges :", element_r.text)
+except:
+    print("Pas de cases rouges")
+
+try:
+    yellow = driver.find_elements(By.CSS_SELECTOR, ".y")
+    for element_y in yellow:
+        print("Jaunes :", element_y.text)
+except:
+    print("Pas de cases jaunes")
 
 #Ferme l'instance chrome
 time.sleep(3)
