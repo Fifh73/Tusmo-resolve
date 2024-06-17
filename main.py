@@ -10,6 +10,35 @@ def nb_case():
     l_mot = len(all_case) / 6
     return int(l_mot)
 
+#Fonction qui permet d'analyser un resultat et prévoir le prochain mot
+def resolve(list, red, yellow):
+    a = 0
+
+
+
+#Fonction qui permet de sortir un resultat
+def result():
+    red_l = []
+    yellow_l = []
+    
+    try:
+        red = driver.find_elements(By.CSS_SELECTOR, ".r")
+        for element_r in red:
+            red_l.append(element_r.text)
+    except:
+        print("Pas de cases rouges")
+
+    try:
+        yellow = driver.find_elements(By.CSS_SELECTOR, ".y")
+        for element_y in yellow:
+            yellow_l.append(element_y.text)
+    except:
+        print("Pas de cases jaunes")
+    
+    return red_l, yellow_l
+
+
+
 #Instance chrome
 driver = webdriver.Chrome()
 
@@ -41,23 +70,19 @@ for t_mot in liste_long:
     if t_mot[0] == l1.lower():
         lettre_liste.append(t_mot)
 
+
+
 #Inscrit le premier mot de la liste dans le jeu
 pg.write(lettre_liste[5])
 pg.press('enter')
 
-try:
-    red = driver.find_elements(By.CSS_SELECTOR, ".r")
-    for element_r in red:
-        print("rouges :", element_r.text)
-except:
-    print("Pas de cases rouges")
+# Appelle la fonction result qui permet de donner un resultat avec la position des rouges et des oranges
+#r,y = result()
 
-try:
-    yellow = driver.find_elements(By.CSS_SELECTOR, ".y")
-    for element_y in yellow:
-        print("Jaunes :", element_y.text)
-except:
-    print("Pas de cases jaunes")
+#Ajoute la permière lettre du mot au début de la liste
+#r.insert(l1)
+
+#resolve(lettre_liste, r, y)
 
 #Ferme l'instance chrome
 time.sleep(3)
